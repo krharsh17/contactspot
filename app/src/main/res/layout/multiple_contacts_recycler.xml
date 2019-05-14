@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:id="@+id/ContactsRecyclerItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rectangle"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp">
+
+                <EditText
+                    android:id="@+id/ContactSingleName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="#000000"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Name"
+                    android:textColor="#000000"
+                    android:textCursorDrawable="@drawable/black_cursor"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="355dp" />
+
+                <Button
+                    android:id="@+id/CoontactSingleNameCancel"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/ContactSingleName"
+                    android:layout_alignRight="@+id/ContactSingleName"
+                    android:layout_alignBottom="@+id/ContactSingleName"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/cancel_contact_field"
+                    tools:layout_editor_absoluteX="40dp"
+                    tools:layout_editor_absoluteY="253dp"
+                    android:layout_marginRight="10dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/ContactSinglePhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="#000000"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Phone Number"
+                    android:textColor="#000000"
+                    android:textCursorDrawable="@drawable/black_cursor"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="355dp" />
+                <Button
+                    android:id="@+id/CoontactSinglePhoneAdd"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/ContactSinglePhone"
+                    android:layout_alignRight="@+id/ContactSinglePhone"
+                    android:layout_alignBottom="@+id/ContactSinglePhone"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/add"
+                    tools:layout_editor_absoluteX="40dp"
+                    tools:layout_editor_absoluteY="253dp"
+                    android:layout_marginRight="32dp" />
+
+                <Button
+                    android:id="@+id/CoontactSinglePhoneCancel"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/ContactSinglePhone"
+                    android:layout_alignRight="@+id/ContactSinglePhone"
+                    android:layout_alignBottom="@+id/ContactSinglePhone"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/cancel_contact_field"
+                    tools:layout_editor_absoluteX="40dp"
+                    tools:layout_editor_absoluteY="253dp"
+                    android:layout_marginRight="10dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/ContactSingleEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="#000000"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Email"
+                    android:textColor="#000000"
+                    android:textCursorDrawable="@drawable/black_cursor"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="355dp" />
+
+                <Button
+                    android:id="@+id/CoontactSingleEmailCancel"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/ContactSingleEmail"
+                    android:layout_alignRight="@+id/ContactSingleEmail"
+                    android:layout_alignBottom="@+id/ContactSingleEmail"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/cancel_contact_field"
+                    tools:layout_editor_absoluteX="40dp"
+                    tools:layout_editor_absoluteY="253dp"
+                    android:layout_marginRight="10dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/ContactSingleAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="#000000"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Address"
+                    android:textColor="#000000"
+                    android:textCursorDrawable="@drawable/black_cursor"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="355dp" />
+
+                <Button
+                    android:id="@+id/CoontactSingleAddressCancel"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/ContactSingleAddress"
+                    android:layout_alignRight="@+id/ContactSingleAddress"
+                    android:layout_alignBottom="@+id/ContactSingleAddress"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/cancel_contact_field"
+                    tools:layout_editor_absoluteX="40dp"
+                    tools:layout_editor_absoluteY="253dp"
+                    android:layout_marginRight="10dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/ContactSingleJobTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="#000000"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Job Title"
+                    android:textColor="#000000"
+                    android:textCursorDrawable="@drawable/black_cursor"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="355dp" />
+
+                <Button
+                    android:id="@+id/CoontactSingleJobTitleCancel"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/ContactSingleJobTitle"
+                    android:layout_alignRight="@+id/ContactSingleJobTitle"
+                    android:layout_alignBottom="@+id/ContactSingleJobTitle"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/cancel_contact_field"
+                    tools:layout_editor_absoluteX="40dp"
+                    tools:layout_editor_absoluteY="253dp"
+                    android:layout_marginRight="10dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/ContactSingleCompany"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="#000000"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Company"
+                    android:textColor="#000000"
+                    android:textCursorDrawable="@drawable/black_cursor"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="355dp" />
+
+                <Button
+                    android:id="@+id/CoontactSingleCompanyCancel"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/ContactSingleCompany"
+                    android:layout_alignRight="@+id/ContactSingleCompany"
+                    android:layout_alignBottom="@+id/ContactSingleCompany"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/cancel_contact_field"
+                    tools:layout_editor_absoluteX="40dp"
+                    tools:layout_editor_absoluteY="253dp"
+                    android:layout_marginRight="10dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/ContactSingleGroups"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="#000000"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Groups"
+                    android:textColor="#000000"
+                    android:textCursorDrawable="@drawable/black_cursor"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="355dp" />
+
+                <Button
+                    android:id="@+id/CoontactSingleGroupsAdd"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/ContactSingleGroups"
+                    android:layout_alignRight="@+id/ContactSingleGroups"
+                    android:layout_alignBottom="@+id/ContactSingleGroups"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/add"
+                    tools:layout_editor_absoluteX="40dp"
+                    tools:layout_editor_absoluteY="253dp"
+                    android:layout_marginRight="32dp" />
+
+                <Button
+                    android:id="@+id/CoontactSingleGroupsCancel"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/ContactSingleGroups"
+                    android:layout_alignRight="@+id/ContactSingleGroups"
+                    android:layout_alignBottom="@+id/ContactSingleGroups"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/cancel_contact_field"
+                    tools:layout_editor_absoluteX="40dp"
+                    tools:layout_editor_absoluteY="253dp"
+                    android:layout_marginRight="10dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/ContactSingleNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="#000000"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Notes"
+                    android:textColor="#000000"
+                    android:textCursorDrawable="@drawable/black_cursor"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="355dp" />
+
+                <Button
+                    android:id="@+id/CoontactSingleNotesCancel"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/ContactSingleNotes"
+                    android:layout_alignRight="@+id/ContactSingleNotes"
+                    android:layout_alignBottom="@+id/ContactSingleNotes"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/cancel_contact_field"
+                    tools:layout_editor_absoluteX="40dp"
+                    tools:layout_editor_absoluteY="253dp"
+                    android:layout_marginRight="10dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/ContactSingleRelationship"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="#000000"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Relationship"
+                    android:textColor="#000000"
+                    android:textCursorDrawable="@drawable/black_cursor"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="355dp" />
+
+                <Button
+                    android:id="@+id/CoontactSingleRelationshipCancel"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/ContactSingleRelationship"
+                    android:layout_alignRight="@+id/ContactSingleRelationship"
+                    android:layout_alignBottom="@+id/ContactSingleRelationship"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/cancel_contact_field"
+                    tools:layout_editor_absoluteX="40dp"
+                    tools:layout_editor_absoluteY="253dp"
+                    android:layout_marginRight="10dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/ContactSingleDates"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="#000000"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Important Dates"
+                    android:textColor="#000000"
+                    android:textCursorDrawable="@drawable/black_cursor"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="355dp" />
+
+                <Button
+                    android:id="@+id/CoontactSingleDatesCancel"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/ContactSingleDates"
+                    android:layout_alignRight="@+id/ContactSingleDates"
+                    android:layout_alignBottom="@+id/ContactSingleDates"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/cancel_contact_field"
+                    tools:layout_editor_absoluteX="40dp"
+                    tools:layout_editor_absoluteY="253dp"
+                    android:layout_marginRight="10dp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/ComtactsMultipleMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:singleLine="true"
+                android:text="+More"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ContactsMultipleCancel"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignEnd="@+id/ContactsRecyclerItem"
+            android:layout_alignRight="@+id/ContactsRecyclerItem"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="-14dp"
+            android:layout_marginRight="-12dp"
+            app:srcCompat="@drawable/cancel_contact" />
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

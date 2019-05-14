@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Dashboard"
+    android:background="@drawable/contacts_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+
+
+
+        <ImageView
+            android:id="@+id/Contactspot"
+            android:layout_width="317dp"
+            android:layout_height="69dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="85dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/contactspot"
+            android:layout_marginLeft="40dp" />
+
+        <TextView
+            android:id="@+id/ContactsTitleTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="-15dp"
+            android:text="adding contacts made simple."
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            app:fontFamily="@font/calibri"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ContactsTitle" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="MissingConstraints"
+            android:layout_marginTop="-155dp"
+            tools:layout_editor_absoluteX="25dp">
+
+            <RelativeLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
+
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/ContactstabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_below="@+id/ContactsTitleTag"
+                    android:layout_marginBottom="0dp"
+                    android:background="#FFFFFF"
+                    android:fontFamily="@font/montserrat"
+                    android:layout_marginTop="190dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:tabIndicatorColor="#3D4A54"
+                    app:tabIndicatorFullWidth="true"
+                    app:tabIndicatorHeight="50dp"
+                    app:tabSelectedTextColor="#FFFFFF"
+                    app:tabTextAppearance="@style/CustomTextAppearanceTab"
+                    app:tabTextColor="#000000"
+                    tools:ignore="NotSibling">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/ContactsSingle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Single" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/ContactsMultiple"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Multiple" />
+
+                </com.google.android.material.tabs.TabLayout>
+
+                <LinearLayout
+                    android:id="@+id/ContactsMultipleLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:visibility="visible">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="250dp"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp">
+
+                        <LinearLayout
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            >
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/ContactsRecycler"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="#FFFFFF"
+                                android:layout_weight="1"
+                                android:nestedScrollingEnabled="false"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/ContactstabLayout" />
+
+                            <Button
+                                android:id="@+id/ContactsSaveAll"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_marginStart="40dp"
+                                android:layout_marginTop="20dp"
+                                android:layout_marginEnd="40dp"
+                                android:layout_marginBottom="45dp"
+                                android:background="#3D4A54"
+                                android:fontFamily="@font/montserrat"
+                                android:text="Save All"
+                                android:textAllCaps="false"
+                                android:textColor="#FFFFFF"
+                                android:textSize="18sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ContactsSingleLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="50dp"
+                    android:orientation="vertical"
+                    android:paddingLeft= "60dp"
+                    android:paddingRight="60dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ContactstabLayout"
+                    android:visibility="gone">
+
+                    <RelativeLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent">
+
+                        <EditText
+                            android:id="@+id/ContactSingleName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginTop="50dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="0dp"
+                            android:backgroundTint="#000000"
+                            android:hint="Name"
+                            android:fontFamily="@font/montserrat"
+                            android:textColor="#000000"
+                            android:textCursorDrawable="@drawable/black_cursor"
+                            android:textSize="16sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="292dp" />
+
+                        <Button
+                            android:id="@+id/ContactSingleNameCancel"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignEnd="@+id/ContactSingleName"
+                            android:layout_alignRight="@+id/ContactSingleName"
+                            android:layout_alignBottom="@+id/ContactSingleName"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/cancel_contact_field"
+                            tools:layout_editor_absoluteX="40dp"
+                            tools:layout_editor_absoluteY="253dp"
+                            android:layout_marginRight="10dp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent">
+
+                        <EditText
+                            android:id="@+id/ContactSinglePhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginTop="40dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="0dp"
+                            android:backgroundTint="#000000"
+                            android:fontFamily="@font/montserrat"
+                            android:hint="Phone Number"
+                            android:textColor="#000000"
+                            android:textCursorDrawable="@drawable/black_cursor"
+                            android:textSize="16sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="355dp" />
+
+                        <Button
+                            android:id="@+id/CoontactSinglePhoneCancel"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignEnd="@+id/ContactSinglePhone"
+                            android:layout_alignRight="@+id/ContactSinglePhone"
+                            android:layout_alignBottom="@+id/ContactSinglePhone"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/cancel_contact_field"
+                            tools:layout_editor_absoluteX="40dp"
+                            tools:layout_editor_absoluteY="253dp"
+                            android:layout_marginRight="10dp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent">
+
+                        <EditText
+                            android:id="@+id/ContactSingleEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginTop="40dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="0dp"
+                            android:backgroundTint="#000000"
+                            android:hint="Emial Address"
+                            android:fontFamily="@font/montserrat"
+                            android:textColor="#000000"
+                            android:textCursorDrawable="@drawable/black_cursor"
+                            android:textSize="16sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:layout_editor_absoluteY="445dp" />
+
+                        <Button
+                            android:id="@+id/ContactSingleEmailCancel"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignEnd="@+id/ContactSingleEmail"
+                            android:layout_alignRight="@+id/ContactSingleEmail"
+                            android:layout_alignBottom="@+id/ContactSingleEmail"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="0dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/cancel_contact_field"
+                            android:maxWidth="20dp"
+                            android:maxHeight="20dp"
+                            tools:layout_editor_absoluteX="40dp"
+                            tools:layout_editor_absoluteY="253dp" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/ContactSingleMore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginBottom="35dp"
+                        android:text="+More"
+                        android:textSize="16sp"
+                        tools:layout_editor_absoluteX="154dp"
+                        tools:layout_editor_absoluteY="560dp" />
+
+
+                    <Button
+                        android:id="@+id/ContactsSave"
+                        android:layout_width="match_parent"
+                        android:layout_height="47dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="30dp"
+                        android:background="#3D4A54"
+                        android:text="Save Contact"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="@font/montserrat"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ContactsSingleLayout" />
+
+                </LinearLayout>
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/ContactsSettings"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="8dp"
+        android:layout_gravity="end"
+        android:background="@drawable/contacts_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/contacts_settings" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
