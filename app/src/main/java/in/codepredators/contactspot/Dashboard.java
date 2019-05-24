@@ -1,115 +1,159 @@
 package in.codepredators.contactspot;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.net.Uri;
+import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
-import android.provider.Contacts;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.View;
-import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
-public class Dashboard extends AppCompatActivity {
+import java.util.ArrayList;
 
-    EditText SingleName;
-    EditText SinglePhone;
 
-    Button Save;
-    Button SaveAll;
+public class Dashboard extends AppCompatActivity implements RecyclerAdapterMultipleContacts.ItemClickListener, View.OnClickListener {
 
+    RecyclerAdapterMultipleContacts adapter;
+    Button button;
+    Button a;
+    int num;
+
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-//        Save = findViewById(R.id.button);
-//        SinglePhone = findViewById(R.id.editText);
-        //TODO findviewbyids here
+        ArrayList<String> Name = new ArrayList<>();
+        Name.add("abcd");
+        Name.add("HeeHEE");
+        Name.add("kjasdh");
+        Name.add("HeeHEE");
+        Name.add("kjhsd");
+        Name.add("HeeHEE");
 
-        Save.setOnClickListener(new View.OnClickListener() {
+
+        RecyclerView recyclerView = findViewById(R.id.ContactsRecycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new RecyclerAdapterMultipleContacts(this, Name);
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
+
+
+        button = (Button) findViewById(R.id.ContactsSettings);
+
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(!CheckIfNumberExistsAlready(SinglePhone.getText().toString())){
+            public void onClick(View view) {
 
-                    addContact("ABCDEDFGH", SinglePhone.getText().toString());
-                }
             }
         });
     }
 
-    public boolean CheckEntriesSingle() {
-        if (SingleName.getText().toString().length() == 0) {
-            Toast.makeText(Dashboard.this, "Please enter a name", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (SinglePhone.getText().toString().length() == 0) {
-            Toast.makeText(Dashboard.this, "Please enter a phone number", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (SinglePhone.getText().toString().length() < 6) {
-            Toast.makeText(Dashboard.this, "The number seems invalid", Toast.LENGTH_SHORT).show();
-            return false;
-        } else
-            return true;
+    @Override
+    public void onItemClick(View view, int position) {
+
     }
 
-    public boolean CheckIfNumberExistsAlready(String number){
-        if (number != null) {
-            Uri lookupUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
-            String[] mPhoneNumberProjection = { ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER, ContactsContract.PhoneLookup.DISPLAY_NAME };
-            Cursor cur = Dashboard.this.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
-            try {
-                if (cur.moveToFirst()) {
-                    return true;
+    @Override
+    public void onClick(View view) {
+
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void elevateName(View v) {
+
+                if (num == 0) {
+                    v.setElevation(10.0f);
+                    v.setBackground(getResources().getDrawable(R.drawable.selected_shape));
+                    num = 1;
+                } else {
+
+                    v.setElevation(0.0f);
+                    v.setBackground(getResources().getDrawable(R.drawable.unselected_shape));
+                    num = 0;
                 }
-            } finally {
-                if (cur != null)
-                    cur.close();
-            }
-            return false;
-        } else {
-            return false;
+
         }
-    }
 
-    public boolean CheckIfNameExistsAlready(String name){
-        if (name != null) {
-            Uri lookupUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(name));
-            String[] mPhoneNumberProjection = { ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER, ContactsContract.PhoneLookup.DISPLAY_NAME };
-            Cursor cur = Dashboard.this.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
-            try {
-                if (cur.moveToFirst()) {
-                    return true;
-                }
-            } finally {
-                if (cur != null)
-                    cur.close();
-            }
-            return false;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void elevatePhone(View v) {
+
+        if (num == 0) {
+            v.setElevation(10.0f);
+            v.setBackground(getResources().getDrawable(R.drawable.selected_shape));
+            num = 1;
         } else {
-            return false;
+
+            v.setElevation(0.0f);
+            v.setBackground(getResources().getDrawable(R.drawable.unselected_shape));
+            num = 0;
         }
+
     }
 
-    private void addContact(String name, String phone) {
-        ContentValues values = new ContentValues();
-        values.put(ContactsContract.CommonDataKinds.Phone.NUMBER, phone);
-        values.put(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_CUSTOM);
-//        values.put(Contacts.People.LABEL, name);
-        values.put(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, name);
-        Uri dataUri = getContentResolver().insert(ContactsContract.RawContacts.CONTENT_URI, values);
-        Uri updateUri = Uri.withAppendedPath(dataUri, Contacts.People.Phones.CONTENT_DIRECTORY);
-        values.clear();
-        values.put(Contacts.People.Phones.TYPE, Contacts.People.TYPE_MOBILE);
-        values.put(Contacts.People.NUMBER, phone);
-        updateUri = getContentResolver().insert(updateUri, values);
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void elevateEmail(View v) {
+
+        if (num == 0) {
+//            v.setElevation(20.0f);
+            v.setBackground(getResources().getDrawable(R.drawable.selected_shape));
+            num = 1;
+        } else {
+
+            v.setElevation(0.0f);
+            v.setBackground(getResources().getDrawable(R.drawable.unselected_shape));
+            num = 0;
+        }
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void elevateAddress(View v) {
+
+        if (num == 0) {
+            v.setElevation(10.0f);
+            v.setBackground(getResources().getDrawable(R.drawable.selected_shape));
+            num = 1;
+        } else {
+
+            v.setElevation(0.0f);
+            v.setBackground(getResources().getDrawable(R.drawable.unselected_shape));
+            num = 0;
+        }
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void elevateJob(View v) {
+
+        if (num == 0) {
+            v.setElevation(10.0f);
+            v.setBackground(getResources().getDrawable(R.drawable.selected_shape));
+            num = 1;
+        } else {
+
+            v.setElevation(0.0f);
+            v.setBackground(getResources().getDrawable(R.drawable.unselected_shape));
+            num = 0;
+        }
+
+    }
     }
 
 
-}
+//
+//public class Dashboard extends AppCompatActivity {
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_dashboard);
+//    }
+//}
