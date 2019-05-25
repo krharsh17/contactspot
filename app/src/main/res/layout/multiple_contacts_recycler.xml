@@ -36,7 +36,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp">
+                android:layout_marginTop="10dp">
 
                 <EditText
                     android:id="@+id/ContactsMultipleName"
@@ -211,7 +211,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="0dp">
 
                 <EditText
                     android:id="@+id/ContactsMultipleEmail"
@@ -219,6 +219,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
+                    android:visibility="gone"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:backgroundTint="#000000"
@@ -235,6 +236,7 @@
                     android:id="@+id/CoontactsMultipleEmailCancel"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:visibility="gone"
                     android:layout_alignEnd="@+id/ContactsMultipleEmail"
                     android:layout_alignRight="@+id/ContactsMultipleEmail"
                     android:layout_alignBottom="@+id/ContactsMultipleEmail"
@@ -250,7 +252,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="0dp">
 
                 <EditText
                     android:id="@+id/ContactsMultipleAddress"
@@ -259,6 +261,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentEnd="true"
+                    android:visibility="gone"
                     android:layout_alignParentRight="true"
                     android:backgroundTint="#000000"
                     android:fontFamily="@font/montserrat"
@@ -274,6 +277,7 @@
                     android:id="@+id/CoontactsMultipleAddressCancel"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:visibility="gone"
                     android:layout_alignEnd="@+id/ContactsMultipleAddress"
                     android:layout_alignRight="@+id/ContactsMultipleAddress"
                     android:layout_alignBottom="@+id/ContactsMultipleAddress"
@@ -289,7 +293,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="0dp">
 
                 <EditText
                     android:id="@+id/ContactsMultipleJobTitle"
@@ -297,6 +301,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
+                    android:visibility="gone"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:backgroundTint="#000000"
@@ -317,6 +322,7 @@
                     android:layout_alignRight="@+id/ContactsMultipleJobTitle"
                     android:layout_alignBottom="@+id/ContactsMultipleJobTitle"
                     android:layout_marginEnd="10dp"
+                    android:visibility="gone"
                     android:layout_marginBottom="12dp"
                     android:background="@drawable/cancel_contact_field"
                     tools:layout_editor_absoluteX="40dp"
@@ -328,7 +334,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="0dp">
 
                 <EditText
                     android:id="@+id/ContactsMultipleCompany"
@@ -338,6 +344,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:visibility="gone"
                     android:backgroundTint="#000000"
                     android:fontFamily="@font/montserrat"
                     android:hint="Company"
@@ -357,6 +364,7 @@
                     android:layout_alignBottom="@+id/ContactsMultipleCompany"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="12dp"
+                    android:visibility="gone"
                     android:background="@drawable/cancel_contact_field"
                     tools:layout_editor_absoluteX="40dp"
                     tools:layout_editor_absoluteY="253dp"
@@ -368,7 +376,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="0dp">
 
                 <EditText
                     android:id="@+id/ContactsMultipleNotes"
@@ -376,6 +384,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
+                    android:visibility="gone"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:backgroundTint="#000000"
@@ -397,6 +406,7 @@
                     android:layout_alignBottom="@+id/ContactsMultipleNotes"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="12dp"
+                    android:visibility="gone"
                     android:background="@drawable/cancel_contact_field"
                     tools:layout_editor_absoluteX="40dp"
                     tools:layout_editor_absoluteY="253dp"
@@ -408,7 +418,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:visibility="gone"
+                android:layout_marginTop="0dp">
 
                 <EditText
                     android:id="@+id/ContactsMultipleDates"
@@ -445,12 +456,12 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/ComtactsMultipleMore"
+                android:id="@+id/ContactsMultipleMore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="0dp"
                 android:maxLines="1"
                 android:layout_marginRight="10dp"
                 android:text="+More"

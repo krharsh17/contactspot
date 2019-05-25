@@ -41,15 +41,17 @@
             app:fontFamily="@font/calibri"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Contactspot" />
-<!--SavingContacts-->
+
+        <!--SavingContacts-->
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/ScrollViewSave"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="MissingConstraints"
             android:layout_marginTop="-155dp"
             tools:layout_editor_absoluteX="25dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <RelativeLayout
                 android:layout_height="match_parent"
@@ -112,6 +114,7 @@
                             android:layout_height="match_parent"
                             android:layout_width="match_parent"
                             android:orientation="vertical"
+                            android:id="@+id/MultipleContactsPalette"
                             android:visibility="visible">
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -274,6 +277,7 @@
                                 <EditText
                                     android:id="@+id/ContactSingleEmail"
                                     android:layout_width="match_parent"
+                                    android:visibility="gone"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentStart="true"
                                     android:layout_alignParentLeft="true"
@@ -293,6 +297,7 @@
                                     android:id="@+id/CoontactSingleEmailCancel"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
+                                    android:visibility="gone"
                                     android:layout_alignEnd="@+id/ContactSingleEmail"
                                     android:layout_alignRight="@+id/ContactSingleEmail"
                                     android:layout_alignBottom="@+id/ContactSingleEmail"
@@ -315,6 +320,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentStart="true"
+                                    android:visibility="gone"
                                     android:layout_alignParentLeft="true"
                                     android:layout_alignParentEnd="true"
                                     android:layout_alignParentRight="true"
@@ -332,6 +338,7 @@
                                     android:id="@+id/CoontactSingleAddressCancel"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
+                                    android:visibility="gone"
                                     android:layout_alignEnd="@+id/ContactSingleAddress"
                                     android:layout_alignRight="@+id/ContactSingleAddress"
                                     android:layout_alignBottom="@+id/ContactSingleAddress"
@@ -354,6 +361,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentStart="true"
+                                    android:visibility="gone"
                                     android:layout_alignParentLeft="true"
                                     android:layout_alignParentEnd="true"
                                     android:layout_alignParentRight="true"
@@ -371,6 +379,7 @@
                                     android:id="@+id/CoontactSingleJobTitleCancel"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
+                                    android:visibility="gone"
                                     android:layout_alignEnd="@+id/ContactSingleJobTitle"
                                     android:layout_alignRight="@+id/ContactSingleJobTitle"
                                     android:layout_alignBottom="@+id/ContactSingleJobTitle"
@@ -394,6 +403,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentStart="true"
                                     android:layout_alignParentLeft="true"
+                                    android:visibility="gone"
                                     android:layout_alignParentEnd="true"
                                     android:layout_alignParentRight="true"
                                     android:backgroundTint="@color/black"
@@ -409,6 +419,7 @@
                                 <Button
                                     android:id="@+id/CoontactSingleCompanyCancel"
                                     android:layout_width="20dp"
+                                    android:visibility="gone"
                                     android:layout_height="20dp"
                                     android:layout_alignEnd="@+id/ContactSingleCompany"
                                     android:layout_alignRight="@+id/ContactSingleCompany"
@@ -425,7 +436,8 @@
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp">
+                                android:layout_marginTop="10dp"
+                                android:visibility="gone">
 
                                 <EditText
                                     android:id="@+id/ContactSingleGroups"
@@ -488,6 +500,7 @@
                                     android:layout_alignParentLeft="true"
                                     android:layout_alignParentEnd="true"
                                     android:layout_alignParentRight="true"
+                                    android:visibility="gone"
                                     android:backgroundTint="@color/black"
                                     android:fontFamily="@font/montserrat"
                                     android:hint="Notes"
@@ -502,6 +515,7 @@
                                     android:id="@+id/CoontactSingleNotesCancel"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
+                                    android:visibility="gone"
                                     android:layout_alignEnd="@+id/ContactSingleNotes"
                                     android:layout_alignRight="@+id/ContactSingleNotes"
                                     android:layout_alignBottom="@+id/ContactSingleNotes"
@@ -517,7 +531,8 @@
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp">
+                                android:layout_marginTop="10dp"
+                                android:visibility="gone">
 
                                 <EditText
                                     android:id="@+id/ContactSingleRelationship"
@@ -556,7 +571,8 @@
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp">
+                                android:layout_marginTop="10dp"
+                                android:visibility="gone">
 
                                 <EditText
                                     android:id="@+id/ContactSingleDates"
@@ -641,8 +657,9 @@
             android:layout_height="match_parent"
             android:layout_marginTop="-155dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/ScrollViewSettings"
             app:layout_constraintTop_toBottomOf="@+id/ContactsTitleTag"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -1116,7 +1133,7 @@
         android:background="@drawable/contacts_settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <Button
         android:id="@+id/ContactsBack"
@@ -1126,6 +1143,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginRight="8dp"
         android:layout_gravity="end"
+        android:visibility="gone"
         android:background="@drawable/contacts_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

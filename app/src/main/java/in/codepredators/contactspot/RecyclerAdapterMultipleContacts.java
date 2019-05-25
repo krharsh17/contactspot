@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.OperationApplicationException;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.location.Address;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Looper;
@@ -16,6 +15,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +23,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import androidx.annotation.MainThread;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -45,6 +44,15 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
     private EditText[] Jobs;
     private EditText[] Company;
     private EditText[] Notes;
+
+    TextWatcher[] textWatchersName;
+    TextWatcher[] textWatchersMobilePhone;
+    TextWatcher[] textWatchersEmail;
+    TextWatcher[] textWatchersAddress;
+    TextWatcher[] textWatchersJob;
+    TextWatcher[] textWatchersCompany;
+    TextWatcher[] textWatchersNotes;
+
 
     private ViewHolder[] viewHolders;
 
@@ -91,6 +99,15 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
         Company = new EditText[50];
         Notes = new EditText[50];
         viewHolders = new ViewHolder[50];
+        textWatchersName = new TextWatcher[50];
+        textWatchersMobilePhone = new TextWatcher[50];
+        textWatchersEmail = new TextWatcher[50];
+        textWatchersAddress = new TextWatcher[50];
+        textWatchersJob = new TextWatcher[50];
+        textWatchersCompany = new TextWatcher[50];
+        textWatchersNotes = new TextWatcher[50];
+        data.add(new DetailedContact());
+
 
     }
 
@@ -115,7 +132,7 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
         Company[position] = holder.Company;
         Notes[position] = holder.Note;
 
-        holder.Name.addTextChangedListener(new TextWatcher() {
+        textWatchersName[position] = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -132,9 +149,9 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        };
 
-        holder.Phone.addTextChangedListener(new TextWatcher() {
+        textWatchersMobilePhone[position] = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -151,9 +168,9 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        };
 
-        holder.Email.addTextChangedListener(new TextWatcher() {
+        textWatchersEmail[position] = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -170,9 +187,9 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        };
 
-        holder.Address.addTextChangedListener(new TextWatcher() {
+        textWatchersAddress[position] = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -183,16 +200,15 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
                 DetailedContact newmData = mData.get(position);
                 newmData.setAddress(s.toString());
                 mData.set(position, newmData);
-                Log.i("Phone", mData.get(position).getPhone());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        };
 
-        holder.Job.addTextChangedListener(new TextWatcher() {
+        textWatchersJob[position] = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -209,9 +225,9 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        };
 
-        holder.Company.addTextChangedListener(new TextWatcher() {
+        textWatchersCompany[position] = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -228,9 +244,9 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        };
 
-        holder.Note.addTextChangedListener(new TextWatcher() {
+        textWatchersNotes[position] = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -247,7 +263,20 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        };
+        holder.Name.addTextChangedListener(textWatchersName[position]);
+
+        holder.Phone.addTextChangedListener(textWatchersMobilePhone[position]);
+
+        holder.Email.addTextChangedListener(textWatchersEmail[position]);
+
+        holder.Address.addTextChangedListener(textWatchersAddress[position]);
+
+        holder.Job.addTextChangedListener(textWatchersJob[position]);
+
+        holder.Company.addTextChangedListener(textWatchersCompany[position]);
+
+        holder.Note.addTextChangedListener(textWatchersNotes[position]);
 
         holder.Cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,6 +285,13 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
                     Toast.makeText(context, "Cannot delete the last contact", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                holder.Name.removeTextChangedListener(textWatchersName[position]);
+                holder.Phone.removeTextChangedListener(textWatchersMobilePhone[position]);
+                holder.Email.removeTextChangedListener(textWatchersEmail[position]);
+                holder.Address.removeTextChangedListener(textWatchersAddress[position]);
+                holder.Job.removeTextChangedListener(textWatchersJob[position]);
+                holder.Company.removeTextChangedListener(textWatchersCompany[position]);
+                holder.Note.removeTextChangedListener(textWatchersNotes[position]);
                 mData.remove(position);
                 notifyDataSetChanged();
                 holder.Name.setText("");
@@ -366,25 +402,17 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
                 }
             });
 
-//            Resources r = context.getResources();
-//            int px = (int) TypedValue.applyDimension(
-//                    TypedValue.COMPLEX_UNIT_DIP,
-//                    1,
-//                    r.getDisplayMetrics()
-//            );
-//            LinearLayout.LayoutParams VisibleFieldParams = new LinearLayout.LayoutParams(
-//                    ViewGroup.LayoutParams.MATCH_PARENT,
-//                    ViewGroup.LayoutParams.WRAP_CONTENT
-//            );
-//            LinearLayout.LayoutParams GoneFieldParams = new LinearLayout.LayoutParams(
-//                    ViewGroup.LayoutParams.MATCH_PARENT,
-//                    ViewGroup.LayoutParams.WRAP_CONTENT
-//            );
-//            LinearLayout.LayoutParams VisibleButtonParams = new LinearLayout.LayoutParams(2*px, 2*px);
-//            LinearLayout.LayoutParams GoneButtonParams = new LinearLayout.LayoutParams(2*px, 2*px);
-//
-//
-//            VisibleFieldParams.setMargins(0,0,10,10);
+            final RelativeLayout.LayoutParams VisibleFieldParams = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            final RelativeLayout.LayoutParams GoneFieldParams = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+
+            VisibleFieldParams.setMargins(0,10,0,0);
+            GoneFieldParams.setMargins(0,0,0,0);
 
 
             More.setOnClickListener(new View.OnClickListener() {
@@ -394,42 +422,54 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
                         Email.setVisibility(View.GONE);
                         EmailCancel.setVisibility(View.GONE);
                         More.setText("+ More");
+                        Email.setLayoutParams(GoneFieldParams);
+                        More.setGravity(Gravity.RIGHT);
                     } else {
                         Email.setVisibility(View.VISIBLE);
                         EmailCancel.setVisibility(View.VISIBLE);
                         More.setText("- Less");
+                        Email.setLayoutParams(VisibleFieldParams);
+                        More.setGravity(Gravity.RIGHT);
                     }
 
                     if (Address.getVisibility() == View.VISIBLE) {
                         Address.setVisibility(View.GONE);
                         AddressCancel.setVisibility(View.GONE);
+                        Address.setLayoutParams(GoneFieldParams);
                     } else {
                         Address.setVisibility(View.VISIBLE);
                         AddressCancel.setVisibility(View.VISIBLE);
+                        Address.setLayoutParams(VisibleFieldParams);
                     }
 
                     if (Job.getVisibility() == View.VISIBLE) {
                         Job.setVisibility(View.GONE);
                         JobCancel.setVisibility(View.GONE);
+                        Job.setLayoutParams(GoneFieldParams);
                     } else {
                         Job.setVisibility(View.VISIBLE);
                         JobCancel.setVisibility(View.VISIBLE);
+                        Job.setLayoutParams(VisibleFieldParams);
                     }
 
                     if (Company.getVisibility() == View.VISIBLE) {
                         Company.setVisibility(View.GONE);
                         CompanyCancel.setVisibility(View.GONE);
+                        Company.setLayoutParams(GoneFieldParams);
                     } else {
                         Company.setVisibility(View.VISIBLE);
                         CompanyCancel.setVisibility(View.VISIBLE);
+                        Company.setLayoutParams(VisibleFieldParams);
                     }
 
                     if (Note.getVisibility() == View.VISIBLE) {
                         Note.setVisibility(View.GONE);
                         NoteCancel.setVisibility(View.GONE);
+                        Note.setLayoutParams(GoneFieldParams);
                     } else {
                         Note.setVisibility(View.VISIBLE);
                         NoteCancel.setVisibility(View.VISIBLE);
+                        Note.setLayoutParams(VisibleFieldParams);
                     }
                 }
             });
@@ -453,7 +493,7 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
                 Looper.prepare();
                 for (int i = 0; i < getItemCount(); i++) {
                     Log.i("Adapter", "1");
-                    if(Names[i].getText().toString().equals("")||Phones[i].getText().toString().equals("")){
+                    if (Names[i].getText().toString().equals("") || Phones[i].getText().toString().equals("")) {
                         Log.i("Adapter", "7");
                         continue;
                     }
@@ -467,7 +507,7 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
                             Log.i("Adapter", "10");
                             continue;
                         }
-                    } catch(Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
                         if (cur != null) {
@@ -505,7 +545,7 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
                             .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
                             .build());
 
-                    if(!Emails[i].getText().toString().equals("")) {
+                    if (!Emails[i].getText().toString().equals("")) {
                         // Adding insert operation to operations list
                         // to insert Email in the table ContactsContract.Data
                         ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
@@ -515,7 +555,7 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
                                 .build());
                     }
 
-                    if(!Addresses[i].getText().toString().equals("")) {
+                    if (!Addresses[i].getText().toString().equals("")) {
                         // Adding insert operation to operations list
                         // to insert Address in the table ContactsContract.Data
                         ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
@@ -525,7 +565,7 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
                                 .build());
                     }
 
-                    if(!Jobs[i].getText().toString().equals("")) {
+                    if (!Jobs[i].getText().toString().equals("")) {
                         // Adding insert operation to operations list
                         // to insert Company & Job in the table ContactsContract.Data
                         ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
@@ -536,7 +576,7 @@ public class RecyclerAdapterMultipleContacts extends RecyclerView.Adapter<Recycl
                                 .build());
                     }
 
-                    if(!Notes[i].getText().toString().equals("")) {
+                    if (!Notes[i].getText().toString().equals("")) {
                         // Adding insert operation to operations list
                         // to insert Notes in the table ContactsContract.Data
                         ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
