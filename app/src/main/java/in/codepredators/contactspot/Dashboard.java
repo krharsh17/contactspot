@@ -168,8 +168,8 @@ public class Dashboard extends AppCompatActivity {
             @SuppressLint("WrongThread")
             @Override
             protected Integer doInBackground(Integer... integers) {
-                Log.i("Thread", Thread.currentThread().getName());
-                ContactsList = new ArrayList<>();
+                LinearLayoutManager Manager = new LinearLayoutManager(Dashboard.this);
+                Manager.setOrientation(RecyclerView.VERTICAL);
                 MultipleContactsRecycler.setLayoutManager(new LinearLayoutManager(Dashboard.this));
                 MultipleContactsRecycler.setAdapter(Adapter);
 
@@ -236,9 +236,10 @@ public class Dashboard extends AppCompatActivity {
                 MultipleMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ContactsList = ((RecyclerAdapterMultipleContacts) MultipleContactsRecycler.getAdapter()).getmData();
-                        ContactsList.add(new DetailedContact());
-                        MultipleContactsRecycler.getAdapter().notifyDataSetChanged();
+                        Adapter.AddFields();
+//                        ContactsList = ((RecyclerAdapterMultipleContacts) MultipleContactsRecycler.getAdapter()).getmData();
+//                        ContactsList.add(new DetailedContact());
+//                        MultipleContactsRecycler.getAdapter().notifyDataSetChanged();
                     }
                 });
 
@@ -294,7 +295,13 @@ public class Dashboard extends AppCompatActivity {
 //
 //                        MultipleContactsRecycler.getAdapter().notifyDataSetChanged();
 
-                        Adapter.AddContacts();
+//                        Adapter.AddContacts();
+
+                        for (DetailedContact S : Adapter.getmData()){
+                            Log.i("CONTACT", "DETAILS -");
+                            Log.i("CONTACT", "Name - " + S.getName());
+                            Log.i("CONTACT", "Phone - " + S.getPhone());
+                        }
                     }
                 });
 
