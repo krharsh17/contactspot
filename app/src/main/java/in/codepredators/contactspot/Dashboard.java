@@ -1,33 +1,50 @@
 package in.codepredators.contactspot;
 
+import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentProviderOperation;
+import android.content.Intent;
 import android.content.OperationApplicationException;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.ComposePathEffect;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
-import android.util.Log;
+import android.provider.Telephony;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Dashboard extends AppCompatActivity {
@@ -35,8 +52,16 @@ public class Dashboard extends AppCompatActivity {
     EditText Name;
     Button NameCancel;
 
-    EditText Phone;
-    Button PhoneCancel;
+    EditText MobilePhone;
+    Button MobilePhoneAdd;
+    Button MobilePhoneCancel;
+
+    EditText WorkPhone;
+    Button WorkPhoneAdd;
+    Button WorkPhoneCancel;
+
+    EditText HomePhone;
+    Button HomePhoneCancel;
 
     EditText Email;
     Button EmailCancel;
@@ -68,20 +93,42 @@ public class Dashboard extends AppCompatActivity {
     LinearLayout Single;
     LinearLayout Multiple;
 
-    AsyncTask<Integer, Integer, Integer> Task;
-    AsyncTask<Integer, Integer, Integer> T;
+    AsyncTask<Integer, Integer, Integer> SaveTask;
+    AsyncTask<Integer, Integer, Integer> ListenerCreatorTask;
     ArrayList<DetailedContact> ContactsList;
+
+    RelativeLayout.LayoutParams VisibleFieldParams;
+    RelativeLayout.LayoutParams GoneFieldParams;
 
     NestedScrollView SaveView;
     NestedScrollView SettingsView;
 
     RecyclerAdapterMultipleContacts Adapter;
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
+    boolean isEmail;
+    boolean isAddress;
+    boolean isJob;
+    boolean isCompany;
+    boolean isNotes;
+
+    TextView CodePredators;
+
+    LinearLayout KumarHarsh;
+    LinearLayout RakshitaJain;
+
+    Button Coffee;
+    Button Rate;
+
     @SuppressLint("StaticFieldLeak")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        CodePredators = findViewById(R.id.ContactsCodePredators);
 
         SaveView = findViewById(R.id.ScrollViewSave);
         SettingsView = findViewById(R.id.ScrollViewSettings);
@@ -89,8 +136,16 @@ public class Dashboard extends AppCompatActivity {
         Save = findViewById(R.id.ContactsSave);
         SaveAll = findViewById(R.id.ContactsSaveAll);
 
-        Phone = findViewById(R.id.ContactSinglePhone);
-        PhoneCancel = findViewById(R.id.CoontactSinglePhoneCancel);
+        MobilePhone = findViewById(R.id.ContactSingleMobilePhone);
+        MobilePhoneAdd = findViewById(R.id.CoontactSinglePhoneAdd);
+        MobilePhoneCancel = findViewById(R.id.CoontactSinglePhoneCancel);
+
+        WorkPhone = findViewById(R.id.ContactSingleWorkPhone);
+        WorkPhoneAdd = findViewById(R.id.CoontactSingleWorkPhoneAdd);
+        WorkPhoneCancel = findViewById(R.id.CoontactSingleWorkPhoneCancel);
+
+        HomePhone = findViewById(R.id.ContactSingleHomePhone);
+        HomePhoneCancel = findViewById(R.id.CoontactSingleHomePhoneCancel);
 
         Name = findViewById(R.id.ContactSingleName);
         NameCancel = findViewById(R.id.CoontactSingleNameCancel);
@@ -123,7 +178,43 @@ public class Dashboard extends AppCompatActivity {
 
         MultipleContactsRecycler = findViewById(R.id.ContactsRecycler);
         ContactsList = new ArrayList<>();
-        Adapter = new RecyclerAdapterMultipleContacts(Dashboard.this, ContactsList);
+        Adapter = new RecyclerAdapterMultipleContacts(Dashboard.this);
+
+        KumarHarsh = findViewById(R.id.ContactsKumarHarsh);
+        RakshitaJain = findViewById(R.id.ContactsRakshitaJain);
+
+        Coffee = findViewById(R.id.ContactsBuyCoffee);
+
+        Rate = findViewById(R.id.ConatctsRateUs);
+
+
+        final Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setContentView(R.layout.permission_popup);
+
+        dialog.findViewById(R.id.popupLink).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://contactspotpolicy.000webhostapp.com/Privacy_policy.html")));
+            }
+        });
+
+        dialog.findViewById(R.id.popupButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(Dashboard.this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(Dashboard.this, Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                    askPermissions();
+                } else {
+                    dialog.cancel();
+                }
+            }
+        });
+        if (ContextCompat.checkSelfPermission(Dashboard.this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(Dashboard.this, Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            dialog.show();
+
+        }
+
 
         Settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,8 +255,7 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-        T = new AsyncTask<Integer, Integer, Integer>() {
-            @SuppressLint("WrongThread")
+        ListenerCreatorTask = new AsyncTask<Integer, Integer, Integer>() {
             @Override
             protected Integer doInBackground(Integer... integers) {
                 LinearLayoutManager Manager = new LinearLayoutManager(Dashboard.this);
@@ -178,14 +268,14 @@ public class Dashboard extends AppCompatActivity {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         if (tab.getText().toString().equals("Multiple")) {
-                            Multiple.animate().alpha(1).setDuration(700);
-                            Single.animate().alpha(0).setDuration(700);
+                            Multiple.animate().alpha(1).setDuration(300);
+                            Single.animate().alpha(0).setDuration(300);
                             Multiple.setVisibility(View.VISIBLE);
                             Single.setVisibility(View.GONE);
 
                         } else {
-                            Multiple.animate().alpha(0).setDuration(700);
-                            Single.animate().alpha(1).setDuration(700);
+                            Multiple.animate().alpha(0).setDuration(300);
+                            Single.animate().alpha(1).setDuration(300);
                             Multiple.setVisibility(View.GONE);
                             Single.setVisibility(View.VISIBLE);
                         }
@@ -202,32 +292,79 @@ public class Dashboard extends AppCompatActivity {
                     }
                 });
 
+                VisibleFieldParams = new RelativeLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+                GoneFieldParams = new RelativeLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+
+                VisibleFieldParams.setMargins(0, 10, 0, 0);
+                GoneFieldParams.setMargins(0, 0, 0, 0);
+
                 SingleMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (Email.getVisibility() == View.VISIBLE) {
-                            Email.setVisibility(View.GONE);
-                            EmailCancel.setVisibility(View.GONE);
-                            Address.setVisibility(View.GONE);
-                            AddressCancel.setVisibility(View.GONE);
-                            Job.setVisibility(View.GONE);
-                            JobCancel.setVisibility(View.GONE);
-                            Company.setVisibility(View.GONE);
-                            CompanyCancel.setVisibility(View.GONE);
-                            Note.setVisibility(View.GONE);
-                            NoteCancel.setVisibility(View.GONE);
+                        if (SingleMore.getText().toString().equals("- Less")) {
+                            if (!isEmail) {
+                                Email.setVisibility(View.GONE);
+                                EmailCancel.setVisibility(View.GONE);
+                                Email.setLayoutParams(GoneFieldParams);
+                            }
+                            if (!isAddress) {
+                                Address.setVisibility(View.GONE);
+                                AddressCancel.setVisibility(View.GONE);
+                                Address.setLayoutParams(GoneFieldParams);
+                            }
+                            if (!isJob) {
+                                Job.setVisibility(View.GONE);
+                                JobCancel.setVisibility(View.GONE);
+                                Job.setLayoutParams(GoneFieldParams);
+                            }
+
+                            if (!isCompany) {
+                                Company.setVisibility(View.GONE);
+                                CompanyCancel.setVisibility(View.GONE);
+                                Company.setLayoutParams(GoneFieldParams);
+                            }
+                            if (!isNotes) {
+                                Note.setVisibility(View.GONE);
+                                NoteCancel.setVisibility(View.GONE);
+                                Note.setLayoutParams(GoneFieldParams);
+                            }
                             SingleMore.setText("+ More");
                         } else {
-                            Email.setVisibility(View.VISIBLE);
-                            EmailCancel.setVisibility(View.VISIBLE);
-                            Address.setVisibility(View.VISIBLE);
-                            AddressCancel.setVisibility(View.VISIBLE);
-                            Job.setVisibility(View.VISIBLE);
-                            JobCancel.setVisibility(View.VISIBLE);
-                            Company.setVisibility(View.VISIBLE);
-                            CompanyCancel.setVisibility(View.VISIBLE);
-                            Note.setVisibility(View.VISIBLE);
-                            NoteCancel.setVisibility(View.VISIBLE);
+                            if (!isEmail) {
+                                Email.setVisibility(View.VISIBLE);
+                                EmailCancel.setVisibility(View.VISIBLE);
+                                Email.setLayoutParams(VisibleFieldParams);
+                            }
+
+                            if (!isAddress) {
+                                Address.setVisibility(View.VISIBLE);
+                                AddressCancel.setVisibility(View.VISIBLE);
+                                Address.setLayoutParams(VisibleFieldParams);
+                            }
+
+                            if (!isJob) {
+                                Job.setVisibility(View.VISIBLE);
+                                JobCancel.setVisibility(View.VISIBLE);
+                                Job.setLayoutParams(VisibleFieldParams);
+                            }
+
+                            if (!isCompany) {
+                                Company.setVisibility(View.VISIBLE);
+                                CompanyCancel.setVisibility(View.VISIBLE);
+                                Company.setLayoutParams(VisibleFieldParams);
+                            }
+
+                            if (!isNotes) {
+                                Note.setVisibility(View.VISIBLE);
+                                NoteCancel.setVisibility(View.VISIBLE);
+                                Note.setLayoutParams(VisibleFieldParams);
+                            }
                             SingleMore.setText("- Less");
                         }
                     }
@@ -236,105 +373,468 @@ public class Dashboard extends AppCompatActivity {
                 MultipleMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Adapter.AddFields();
-//                        ContactsList = ((RecyclerAdapterMultipleContacts) MultipleContactsRecycler.getAdapter()).getmData();
-//                        ContactsList.add(new DetailedContact());
-//                        MultipleContactsRecycler.getAdapter().notifyDataSetChanged();
+                        ArrayList<DetailedContact> newList = Adapter.getContactsList();
+                        newList.add(new DetailedContact(Adapter.getItemCount()));
+                        Adapter.setContactsList(newList);
+                        Adapter.notifyItemInserted(Adapter.getItemCount());
+
+                        ArrayList<RecyclerAdapterMultipleContacts.ViewHolder> viewHolders = Adapter.getViewHolders();
+                        for (int i = 0; i < viewHolders.size(); i++) {
+                            viewHolders.get(i).ID.setText("" + i);
+                        }
                     }
                 });
 
                 Save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (CheckEntriesSingle()) {
-                            if (!CheckIfNumberExistsAlready(Phone.getText().toString())) {
-                                if (!CheckIfNameExistsAlready(Name.getText().toString())) {
-                                    AddContact(Name.getText().toString(), Phone.getText().toString(), Name.getText().toString(), Name.getText().toString(), Name.getText().toString(), Name.getText().toString(), Name.getText().toString());
+                        if (CheckEntries(Name.getText().toString(), MobilePhone.getText().toString())) {
+                            if (!CheckIfNumberExistsAlready(MobilePhone.getText().toString())) {
+                                if (WorkPhone.getText().toString().equals("")) {
+                                    if (HomePhone.getText().toString().equals("")) {
+                                        AddContact(Name.getText().toString(), MobilePhone.getText().toString(), null, null, Email.getText().toString(), Address.getText().toString(), Job.getText().toString(), Company.getText().toString(), Note.getText().toString());
+                                        Name.setText("");
+                                        MobilePhone.setText("");
+                                        WorkPhone.setText("");
+                                        HomePhone.setText("");
+                                        Email.setText("");
+                                        Address.setText("");
+                                        Job.setText("");
+                                        Company.setText("");
+                                        Note.setText("");
+
+                                        if (SingleMore.getText().equals("- Less")) {
+                                            SingleMore.callOnClick();
+                                        }
+                                    } else {
+                                        if (!CheckIfNumberExistsAlready(HomePhone.getText().toString())) {
+                                            AddContact(Name.getText().toString(), MobilePhone.getText().toString(), null, HomePhone.getText().toString(), Email.getText().toString(), Address.getText().toString(), Job.getText().toString(), Company.getText().toString(), Note.getText().toString());
+                                            Name.setText("");
+                                            MobilePhone.setText("");
+                                            WorkPhone.setText("");
+                                            HomePhone.setText("");
+                                            Email.setText("");
+                                            Address.setText("");
+                                            Job.setText("");
+                                            Company.setText("");
+                                            Note.setText("");
+
+                                            if (SingleMore.getText().equals("- Less")) {
+                                                SingleMore.callOnClick();
+                                            }
+                                        } else {
+                                            Toast.makeText(Dashboard.this, HomePhone.getText().toString() + " already exists!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
                                 } else {
-                                    Toast.makeText(Dashboard.this, "This name already exists..", Toast.LENGTH_SHORT).show();
+                                    if (HomePhone.getText().toString().equals("")) {
+                                        if (!CheckIfNumberExistsAlready(WorkPhone.getText().toString())) {
+                                            AddContact(Name.getText().toString(), MobilePhone.getText().toString(), WorkPhone.getText().toString(), null, Email.getText().toString(), Address.getText().toString(), Job.getText().toString(), Company.getText().toString(), Note.getText().toString());
+                                            Name.setText("");
+                                            MobilePhone.setText("");
+                                            WorkPhone.setText("");
+                                            HomePhone.setText("");
+                                            Email.setText("");
+                                            Address.setText("");
+                                            Job.setText("");
+                                            Company.setText("");
+                                            Note.setText("");
+
+                                            if (SingleMore.getText().equals("- Less")) {
+                                                SingleMore.callOnClick();
+                                            }
+                                        } else {
+                                            Toast.makeText(Dashboard.this, WorkPhone.getText().toString() + " exists already!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        if (!CheckIfNumberExistsAlready(WorkPhone.getText().toString())) {
+                                            if (!CheckIfNumberExistsAlready(HomePhone.getText().toString())) {
+                                                AddContact(Name.getText().toString(), MobilePhone.getText().toString(), WorkPhone.getText().toString(), HomePhone.getText().toString(), Email.getText().toString(), Address.getText().toString(), Job.getText().toString(), Company.getText().toString(), Note.getText().toString());
+                                                Name.setText("");
+                                                MobilePhone.setText("");
+                                                WorkPhone.setText("");
+                                                HomePhone.setText("");
+                                                Email.setText("");
+                                                Address.setText("");
+                                                Job.setText("");
+                                                Company.setText("");
+                                                Note.setText("");
+
+                                                if (SingleMore.getText().equals("- Less")) {
+                                                    SingleMore.callOnClick();
+                                                }
+                                            } else {
+                                                Toast.makeText(Dashboard.this, HomePhone.getText().toString() + " already exists!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        } else {
+                                            Toast.makeText(Dashboard.this, WorkPhone.getText().toString() + " exists already!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
                                 }
-                            } else {
-                                Toast.makeText(Dashboard.this, "This number already exists..", Toast.LENGTH_SHORT).show();
                             }
+                        } else {
+                            Toast.makeText(Dashboard.this, "Please enter correct data!", Toast.LENGTH_SHORT).show();
                         }
                     }
+
                 });
 
                 SaveAll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO Code here to save all contacts
-//                        ContactsList = ((RecyclerAdapterMultipleContacts)MultipleContactsRecycler.getAdapter()).getmData();
-//                        ArrayList<Integer> Removals = new ArrayList<>();
-//                        for(int i=0; i<ContactsList.size(); i++){
-//                            DetailedContact C = ContactsList.get(i);
-////                            if (CheckEntriesMultiple()) {
-//                                if (!CheckIfNumberExistsAlready(C.getPhone())) {
-//                                    if (!CheckIfNameExistsAlready(C.getName())) {
-//                                        AddContact(C.getName(), C.getPhone(), C.getEmail(), C.getAddress(), C.getJob(), C.getCompany(), C.getNotes());
-//                                        Removals.add(i);
-//                                        ((RecyclerAdapterMultipleContacts)MultipleContactsRecycler.getAdapter()).getNames()[i].setText("");
-//                                        ((RecyclerAdapterMultipleContacts)MultipleContactsRecycler.getAdapter()).getPhones()[i].setText("");
-//                                        ((RecyclerAdapterMultipleContacts)MultipleContactsRecycler.getAdapter()).getEmails()[i].setText("");
-//                                        ((RecyclerAdapterMultipleContacts)MultipleContactsRecycler.getAdapter()).getAddresses()[i].setText("");
-//                                        ((RecyclerAdapterMultipleContacts)MultipleContactsRecycler.getAdapter()).getJobs()[i].setText("");
-//                                        ((RecyclerAdapterMultipleContacts)MultipleContactsRecycler.getAdapter()).getCompany()[i].setText("");
-//                                        ((RecyclerAdapterMultipleContacts)MultipleContactsRecycler.getAdapter()).getNotes()[i].setText("");
-//                                    } else {
-//                                        Toast.makeText(Dashboard.this,  C.getName() + " already exists..", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                } else {
-//                                    Toast.makeText(Dashboard.this, C.getPhone() + " already exists..", Toast.LENGTH_SHORT).show();
-//                                }
-////                            }
-//                        }
-//
-//                        for(int i: Removals){
-//                            ContactsList.remove(i);
-//                        }
-//
-//                        MultipleContactsRecycler.getAdapter().notifyDataSetChanged();
+                        for (int i = 0; i < Adapter.getViewHolders().size(); i++) {
+                            RecyclerAdapterMultipleContacts.ViewHolder viewHolder = Adapter.getViewHolders().get(i);
+                            if (CheckEntries(viewHolder.Name.getText().toString(), viewHolder.MobilePhone.getText().toString())) {
+                                if (!CheckIfNumberExistsAlready(viewHolder.MobilePhone.getText().toString())) {
+                                    if (viewHolder.WorkPhone.getText().toString().equals("")) {
+                                        if (viewHolder.HomePhone.getText().toString().equals("")) {
+                                            AddContact(viewHolder.Name.getText().toString(), viewHolder.MobilePhone.getText().toString(), null, null, viewHolder.Email.getText().toString(), viewHolder.Address.getText().toString(), viewHolder.Job.getText().toString(), viewHolder.Company.getText().toString(), viewHolder.Note.getText().toString());
+                                            viewHolder.Name.setText("");
+                                            viewHolder.MobilePhone.setText("");
+                                            viewHolder.WorkPhone.setText("");
+                                            viewHolder.HomePhone.setText("");
+                                            viewHolder.Email.setText("");
+                                            viewHolder.Address.setText("");
+                                            viewHolder.Job.setText("");
+                                            viewHolder.Company.setText("");
+                                            viewHolder.Note.setText("");
 
-//                        Adapter.AddContacts();
+                                            if (viewHolder.More.getText().equals("- Less")) {
+                                                viewHolder.More.callOnClick();
+                                            }
+                                        } else {
+                                            if (!CheckIfNumberExistsAlready(viewHolder.HomePhone.getText().toString())) {
+                                                AddContact(viewHolder.Name.getText().toString(), viewHolder.MobilePhone.getText().toString(), null, viewHolder.HomePhone.getText().toString(), viewHolder.Email.getText().toString(), viewHolder.Address.getText().toString(), viewHolder.Job.getText().toString(), viewHolder.Company.getText().toString(), viewHolder.Note.getText().toString());
+                                                viewHolder.Name.setText("");
+                                                viewHolder.MobilePhone.setText("");
+                                                viewHolder.WorkPhone.setText("");
+                                                viewHolder.HomePhone.setText("");
+                                                viewHolder.Email.setText("");
+                                                viewHolder.Address.setText("");
+                                                viewHolder.Job.setText("");
+                                                viewHolder.Company.setText("");
+                                                viewHolder.Note.setText("");
 
-                        for (DetailedContact S : Adapter.getmData()){
-                            Log.i("CONTACT", "DETAILS -");
-                            Log.i("CONTACT", "Name - " + S.getName());
-                            Log.i("CONTACT", "Phone - " + S.getPhone());
+                                                if (viewHolder.More.getText().equals("- Less")) {
+                                                    viewHolder.More.callOnClick();
+                                                }
+                                            } else {
+                                                Toast.makeText(Dashboard.this, viewHolder.HomePhone.getText().toString() + " already exists!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    } else {
+                                        if (viewHolder.HomePhone.getText().toString().equals("")) {
+                                            if (!CheckIfNumberExistsAlready(viewHolder.WorkPhone.getText().toString())) {
+                                                AddContact(viewHolder.Name.getText().toString(), viewHolder.MobilePhone.getText().toString(), viewHolder.WorkPhone.getText().toString(), null, viewHolder.Email.getText().toString(), viewHolder.Address.getText().toString(), viewHolder.Job.getText().toString(), viewHolder.Company.getText().toString(), viewHolder.Note.getText().toString());
+                                                viewHolder.Name.setText("");
+                                                viewHolder.MobilePhone.setText("");
+                                                viewHolder.WorkPhone.setText("");
+                                                viewHolder.HomePhone.setText("");
+                                                viewHolder.Email.setText("");
+                                                viewHolder.Address.setText("");
+                                                viewHolder.Job.setText("");
+                                                viewHolder.Company.setText("");
+                                                viewHolder.Note.setText("");
+
+                                                if (viewHolder.More.getText().equals("- Less")) {
+                                                    viewHolder.More.callOnClick();
+                                                }
+                                            } else {
+                                                Toast.makeText(Dashboard.this, viewHolder.WorkPhone.getText().toString() + " exists already!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        } else {
+                                            if (!CheckIfNumberExistsAlready(viewHolder.WorkPhone.getText().toString())) {
+                                                if (!CheckIfNumberExistsAlready(viewHolder.HomePhone.getText().toString())) {
+                                                    AddContact(viewHolder.Name.getText().toString(), viewHolder.MobilePhone.getText().toString(), viewHolder.WorkPhone.getText().toString(), viewHolder.HomePhone.getText().toString(), viewHolder.Email.getText().toString(), viewHolder.Address.getText().toString(), viewHolder.Job.getText().toString(), viewHolder.Company.getText().toString(), viewHolder.Note.getText().toString());
+                                                    viewHolder.Name.setText("");
+                                                    viewHolder.MobilePhone.setText("");
+                                                    viewHolder.WorkPhone.setText("");
+                                                    viewHolder.HomePhone.setText("");
+                                                    viewHolder.Email.setText("");
+                                                    viewHolder.Address.setText("");
+                                                    viewHolder.Job.setText("");
+                                                    viewHolder.Company.setText("");
+                                                    viewHolder.Note.setText("");
+
+                                                    if (viewHolder.More.getText().equals("- Less")) {
+                                                        viewHolder.More.callOnClick();
+                                                    }
+                                                } else {
+                                                    Toast.makeText(Dashboard.this, viewHolder.HomePhone.getText().toString() + " already exists!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            } else {
+                                                Toast.makeText(Dashboard.this, viewHolder.WorkPhone.getText().toString() + " exists already!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(Dashboard.this, "Please enter correct data!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
 
 
+                WorkPhoneAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        HomePhone.setVisibility(View.VISIBLE);
+                        HomePhoneCancel.setVisibility(View.VISIBLE);
+                        HomePhone.setLayoutParams(VisibleFieldParams);
+                        WorkPhoneAdd.setVisibility(View.GONE);
+                    }
+                });
+
+                MobilePhoneAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        WorkPhone.setVisibility(View.VISIBLE);
+                        WorkPhoneAdd.setVisibility(View.VISIBLE);
+                        WorkPhone.setLayoutParams(VisibleFieldParams);
+                        WorkPhoneCancel.setVisibility(View.VISIBLE);
+                        MobilePhoneAdd.setVisibility(View.GONE);
+                    }
+                });
+
+                WorkPhoneCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (WorkPhone.getText().toString().equals("")) {
+                            WorkPhone.setVisibility(View.GONE);
+                            WorkPhoneAdd.setVisibility(View.GONE);
+                            WorkPhoneCancel.setVisibility(View.GONE);
+                            WorkPhone.setLayoutParams(GoneFieldParams);
+                            MobilePhoneAdd.setVisibility(View.VISIBLE);
+                        } else {
+                            WorkPhone.setText("");
+                        }
+                    }
+                });
+
+                HomePhoneCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (HomePhone.getText().toString().equals("")) {
+                            HomePhone.setVisibility(View.GONE);
+                            HomePhone.setLayoutParams(GoneFieldParams);
+                            HomePhoneCancel.setVisibility(View.GONE);
+                            if (WorkPhone.getVisibility() == View.VISIBLE) {
+                                WorkPhoneAdd.setVisibility(View.VISIBLE);
+                            } else {
+                                MobilePhoneAdd.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                });
+
+                NameCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Name.setText("");
+                    }
+                });
+
+                MobilePhoneCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MobilePhone.setText("");
+                    }
+                });
+
+                EmailCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Email.setText("");
+                    }
+                });
+
+                AddressCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Address.setText("");
+                    }
+                });
+
+                JobCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Job.setText("");
+                    }
+                });
+
+                CompanyCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Company.setText("");
+                    }
+                });
+
+                NoteCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Note.setText("");
+                    }
+                });
+
+                findViewById(R.id.ContactsChooseName).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(Dashboard.this, "Name can not be hidden", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                findViewById(R.id.ContactsChoosePhoneNumber).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(Dashboard.this, "Number can not be hidden", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
                 return null;
             }
         };
-        T.execute();
 
-        TabLayout.Tab MultipleTab = Tabs.getTabAt(1);
-        MultipleTab.select();
+        Coffee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.ko-fi.com/krharsh17")));
+            }
+        });
+
+        Rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("market://details?id=" + Dashboard.this.getPackageName());
+                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                // To count with Play market backstack, After pressing back button,
+                // to taken back to our application, we need to add following flags to intent.
+                goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                try {
+                    startActivity(goToMarket);
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://play.google.com/store/apps/details?id=" + Dashboard.this.getPackageName())));
+                }
+            }
+        });
+
+        KumarHarsh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("linkedin://kumar-harsh-0a119716b"));
+                final PackageManager packageManager = Dashboard.this.getPackageManager();
+                final List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                if (list.isEmpty()) {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.linkedin.com/profile/view?id=kumar-harsh-0a119716b"));
+                }
+                startActivity(intent);
+            }
+        });
+
+        RakshitaJain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("http://instagram.com/_u/rakshita.jain_");
+                Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
+
+                likeIng.setPackage("com.instagram.android");
+
+                try {
+                    startActivity(likeIng);
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://instagram.com/rakshita.jain_")));
+                }
+            }
+        });
+
+        CodePredators.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = null;
+                String uri;
+                try {
+                    Dashboard.this.getPackageManager()
+                            .getPackageInfo("com.facebook.katana", 0); //Checks if FB is even installed.
+                    int versionCode = Dashboard.this.getPackageManager().getPackageInfo("com.facebook.katana", 0).versionCode;
+                    if (versionCode >= 3002850) { //newer versions of fb app
+                        uri = "fb://facewebmodal/f?href=https://www.facebook.com/CodePredators6";
+                    } else { //older versions of fb app
+                        uri = "fb://page/CodePredators6";
+                    }
+                    intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(uri)); //Trys to make intent with FB's URI
+                } catch (Exception e) {
+                    intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://www.facebook.com/CodePredators6")); //catches and opens a url to the desired page
+                } finally {
+                    startActivity(intent);
+                }
+            }
+        });
+
+        ReadPreferences();
+        UpdateColors();
+        VisibilityChanger();
+        ListenerCreatorTask.execute();
     }
 
-    public boolean CheckEntriesSingle() {
-        if (Name.getText().toString().length() == 0) {
+    void VisibilityChanger() {
+        if (isEmail) {
+            Email.setVisibility(View.VISIBLE);
+            EmailCancel.setVisibility(View.VISIBLE);
+        } else {
+            Email.setVisibility(View.GONE);
+            EmailCancel.setVisibility(View.GONE);
+        }
+
+        if (isAddress) {
+            Address.setVisibility(View.VISIBLE);
+            AddressCancel.setVisibility(View.VISIBLE);
+        } else {
+            Address.setVisibility(View.GONE);
+            AddressCancel.setVisibility(View.GONE);
+        }
+
+        if (isCompany) {
+            Company.setVisibility(View.VISIBLE);
+            CompanyCancel.setVisibility(View.VISIBLE);
+        } else {
+            Company.setVisibility(View.GONE);
+            CompanyCancel.setVisibility(View.GONE);
+        }
+
+        if (isJob) {
+            Job.setVisibility(View.VISIBLE);
+            JobCancel.setVisibility(View.VISIBLE);
+        } else {
+            Job.setVisibility(View.GONE);
+            JobCancel.setVisibility(View.GONE);
+        }
+
+        if (isNotes) {
+            Note.setVisibility(View.VISIBLE);
+            NoteCancel.setVisibility(View.VISIBLE);
+        } else {
+            Note.setVisibility(View.GONE);
+            NoteCancel.setVisibility(View.GONE);
+        }
+
+
+    }
+
+    public boolean CheckEntries(String Name, String MobilePhone) {
+        if (Name.length() == 0) {
             Toast.makeText(Dashboard.this, "Please enter a name", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (Phone.getText().toString().length() == 0) {
+        } else if (MobilePhone.length() == 0) {
             Toast.makeText(Dashboard.this, "Please enter a phone number", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (Phone.getText().toString().length() < 6) {
+        } else if (MobilePhone.length() < 6) {
             Toast.makeText(Dashboard.this, "The number seems invalid", Toast.LENGTH_SHORT).show();
-            return false;
-        } else
-            return true;
-    }
-
-    public boolean CheckEntriesMultiple(){
-        if (Name.getText().toString().length() == 0) {
-            return false;
-        } else if (Phone.getText().toString().length() == 0) {
-            return false;
-        } else if (Phone.getText().toString().length() < 6) {
             return false;
         } else
             return true;
@@ -346,7 +846,7 @@ public class Dashboard extends AppCompatActivity {
             String[] mPhoneNumberProjection = {ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER, ContactsContract.PhoneLookup.DISPLAY_NAME};
             Cursor cur = Dashboard.this.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
             try {
-                if (cur.moveToFirst()) {
+                if (cur != null && cur.moveToFirst()) {
                     return true;
                 }
             } finally {
@@ -365,7 +865,7 @@ public class Dashboard extends AppCompatActivity {
             String[] mPhoneNumberProjection = {ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER, ContactsContract.PhoneLookup.DISPLAY_NAME};
             Cursor cur = Dashboard.this.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
             try {
-                if (cur.moveToFirst()) {
+                if (cur != null && cur.moveToFirst()) {
                     return true;
                 }
             } finally {
@@ -380,9 +880,9 @@ public class Dashboard extends AppCompatActivity {
 
 
     @SuppressLint("StaticFieldLeak")
-    public void AddContact(final String Name, final String MobilePhone, final String Email, final String Address, final String Job, final String Company, final String Note) {
+    public void AddContact(final String Name, final String MobilePhone, final String WorkPhone, final String HomePhone, final String Email, final String Address, final String Job, final String Company, final String Note) {
 
-        Task = new AsyncTask<Integer, Integer, Integer>() {
+        SaveTask = new AsyncTask<Integer, Integer, Integer>() {
             @Override
             protected Integer doInBackground(Integer... integers) {
 
@@ -414,6 +914,24 @@ public class Dashboard extends AppCompatActivity {
                         .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, MobilePhone)
                         .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
                         .build());
+
+                if (WorkPhone != null) {
+                    ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
+                            .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                            .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, WorkPhone)
+                            .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_WORK)
+                            .build());
+                }
+
+                if (HomePhone != null) {
+                    ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
+                            .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                            .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, HomePhone)
+                            .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_HOME)
+                            .build());
+                }
 
                 // Adding insert operation to operations list
                 // to insert Email in the table ContactsContract.Data
@@ -454,10 +972,10 @@ public class Dashboard extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getBaseContext(), "Contact is successfully added", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), MobilePhone + " is successfully added", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    } catch (RemoteException e) {
+                } catch (RemoteException e) {
                     e.printStackTrace();
                 } catch (OperationApplicationException e) {
                     e.printStackTrace();
@@ -465,25 +983,208 @@ public class Dashboard extends AppCompatActivity {
                 return null;
             }
         };
-        Task.execute();
+        SaveTask.execute();
 
     }
 
-    public void elevateName(View view){}
+    void ReadPreferences() {
+        sharedPreferences = getSharedPreferences("Contactspot", 0);
+        editor = sharedPreferences.edit();
 
-    public void elevatePhone(View view){}
+        String isEmail = sharedPreferences.getString("email", "");
+        String isAddress = sharedPreferences.getString("address", "");
+        String isJob = sharedPreferences.getString("job title", "");
+        String isCompany = sharedPreferences.getString("company", "");
+        String isNotes = sharedPreferences.getString("notes", "");
 
-    public void elevateEmail(View view){}
+        if (isEmail != null && isEmail.equals("true")) {
+            Dashboard.this.isEmail = true;
+        } else {
+            Dashboard.this.isEmail = false;
+        }
 
-    public void elevateAddress(View view){}
+        if (isAddress != null && isAddress.equals("true")) {
+            Dashboard.this.isAddress = true;
+        } else {
+            Dashboard.this.isAddress = false;
+        }
 
-    public void elevateJob(View view){}
+        if (isJob != null && isJob.equals("true")) {
+            Dashboard.this.isJob = true;
+        } else {
+            Dashboard.this.isJob = false;
+        }
+
+        if (isCompany != null && isCompany.equals("true")) {
+            Dashboard.this.isCompany = true;
+        } else {
+            Dashboard.this.isCompany = false;
+        }
+
+        if (isNotes != null && isNotes.equals("true")) {
+            Dashboard.this.isNotes = true;
+        } else {
+            Dashboard.this.isNotes = false;
+        }
+    }
+
+    void WritePreferences(final TextView textView) {
+        if (textView != null) {
+            switch (textView.getText().toString().toLowerCase()) {
+                case "email":
+                    if (isEmail) {
+                        editor.putString(textView.getText().toString().toLowerCase(), "false");
+                    } else {
+                        editor.putString(textView.getText().toString().toLowerCase(), "true");
+                    }
+                    break;
+
+                case "address":
+                    if (isAddress) {
+                        editor.putString(textView.getText().toString().toLowerCase(), "false");
+                    } else {
+                        editor.putString(textView.getText().toString().toLowerCase(), "true");
+                    }
+                    break;
+
+                case "job title":
+                    if (isJob) {
+                        editor.putString(textView.getText().toString().toLowerCase(), "false");
+                    } else {
+                        editor.putString(textView.getText().toString().toLowerCase(), "true");
+                    }
+                    break;
+
+                case "company":
+                    if (isCompany) {
+                        editor.putString(textView.getText().toString().toLowerCase(), "false");
+                    } else {
+                        editor.putString(textView.getText().toString().toLowerCase(), "true");
+                    }
+                    break;
+
+                case "notes":
+                    if (isNotes) {
+                        editor.putString(textView.getText().toString().toLowerCase(), "false");
+                    } else {
+                        editor.putString(textView.getText().toString().toLowerCase(), "true");
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            editor.apply();
+            ReadPreferences();
+        }
+    }
+
+    public void flipChoice(View view) {
+        ReadPreferences();
+        WritePreferences((TextView) view);
+        UpdateColors();
+        VisibilityChanger();
+        for (RecyclerAdapterMultipleContacts.ViewHolder V : Adapter.getViewHolders()) {
+            V.VisibilityChanger();
+        }
+    }
+
+    void UpdateColors() {
+        TextView EmailButton = findViewById(R.id.ContactsChooseEmail);
+        TextView AddressButton = findViewById(R.id.ContactsChooseAddress);
+        TextView JobButton = findViewById(R.id.ContactsChooseJobTitle);
+        TextView CompanyButton = findViewById(R.id.ContactsChooseCompany);
+        TextView NotesButton = findViewById(R.id.ContactsChooseNotes);
+        if (!isEmail) {
+            EmailButton.setBackgroundResource(R.drawable.unselected_shape);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                EmailButton.setElevation(0);
+            }
+            EmailButton.setTextColor(getResources().getColor(R.color.blue));
+        } else {
+            EmailButton.setBackgroundResource(R.drawable.selected_shape);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                EmailButton.setElevation(15);
+            }
+            EmailButton.setTextColor(getResources().getColor(R.color.white));
+        }
+
+        if (!isAddress) {
+            AddressButton.setBackgroundResource(R.drawable.unselected_shape);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                AddressButton.setElevation(0);
+            }
+            AddressButton.setTextColor(getResources().getColor(R.color.blue));
+        } else {
+            AddressButton.setBackgroundResource(R.drawable.selected_shape);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                AddressButton.setElevation(15);
+            }
+            AddressButton.setTextColor(getResources().getColor(R.color.white));
+        }
+
+        if (!isJob) {
+            JobButton.setBackgroundResource(R.drawable.unselected_shape);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                JobButton.setElevation(0);
+            }
+            JobButton.setTextColor(getResources().getColor(R.color.blue));
+        } else {
+            JobButton.setBackgroundResource(R.drawable.selected_shape);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                JobButton.setElevation(15);
+            }
+            JobButton.setTextColor(getResources().getColor(R.color.white));
+        }
+
+        if (!isCompany) {
+            CompanyButton.setBackgroundResource(R.drawable.unselected_shape);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                CompanyButton.setElevation(0);
+            }
+            CompanyButton.setTextColor(getResources().getColor(R.color.blue));
+        } else {
+            CompanyButton.setBackgroundResource(R.drawable.selected_shape);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                CompanyButton.setElevation(15);
+            }
+            CompanyButton.setTextColor(getResources().getColor(R.color.white));
+        }
+
+        if (!isNotes) {
+            NotesButton.setBackgroundResource(R.drawable.unselected_shape);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                NotesButton.setElevation(0);
+            }
+            NotesButton.setTextColor(getResources().getColor(R.color.blue));
+        } else {
+            NotesButton.setBackgroundResource(R.drawable.selected_shape);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                NotesButton.setElevation(15);
+            }
+            NotesButton.setTextColor(getResources().getColor(R.color.white));
+        }
+
+    }
+
+    void askPermissions() {
+        if (ContextCompat.checkSelfPermission(Dashboard.this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(Dashboard.this,
+                    new String[]{Manifest.permission.READ_CONTACTS},
+                    24);
+
+        if (ContextCompat.checkSelfPermission(Dashboard.this, Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(Dashboard.this,
+                    new String[]{Manifest.permission.WRITE_CONTACTS},
+                    24);
+    }
 
     @Override
     protected void onDestroy() {
-        T.cancel(true);
-        if(Task!=null)
-            Task.cancel(true);
+        ListenerCreatorTask.cancel(true);
+        if (SaveTask != null)
+            SaveTask.cancel(true);
         super.onDestroy();
     }
 }

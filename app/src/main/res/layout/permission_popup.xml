@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/popupHeading"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:text="Permissions"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/popupText"
+        android:layout_width="300dp"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Contactspot requires the permission to read and write to your phone's contacts. \n\n
+The permission to read the contact is needed to ensure that no duplicate contacts are added to your phonebook." />
+
+    <TextView
+        android:id="@+id/popupLink"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColor="#0645AD"
+        android:gravity="center"
+        android:text="Link to privacy policy" />
+
+    <Button
+        android:id="@+id/popupButton"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:text="Proceed"
+        android:textColor="@color/blue" />
+</LinearLayout>

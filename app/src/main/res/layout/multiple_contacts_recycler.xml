@@ -33,6 +33,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:id="@+id/ItemID"/>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -129,11 +135,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:visibility="gone">
+                >
 
                 <EditText
-                    android:id="@+id/ContactsAddNumber"
+                    android:id="@+id/ContactsMultipleWorkNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -146,19 +151,36 @@
                     android:textColor="#000000"
                     android:textCursorDrawable="@drawable/black_cursor"
                     android:textSize="16sp"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="355dp" />
 
                 <Button
+                    android:id="@+id/coontactsMultipleWorkAdd"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/ContactsMultipleWorkNumber"
+                    android:layout_alignRight="@+id/ContactsMultipleWorkNumber"
+                    android:layout_alignBottom="@+id/ContactsMultipleWorkNumber"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/add"
+                    tools:layout_editor_absoluteX="40dp"
+                    android:visibility="gone"
+                    tools:layout_editor_absoluteY="253dp" />
+
+                <Button
                     android:id="@+id/ContactsAddNumberCancel"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_alignEnd="@+id/ContactsAddNumber"
-                    android:layout_alignRight="@+id/ContactsAddNumber"
-                    android:layout_alignBottom="@+id/ContactsAddNumber"
+                    android:layout_alignEnd="@+id/ContactsMultipleWorkNumber"
+                    android:layout_alignRight="@+id/ContactsMultipleWorkNumber"
+                    android:layout_alignBottom="@+id/ContactsMultipleWorkNumber"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="12dp"
+                    android:visibility="gone"
                     android:background="@drawable/cancel_contact_field"
                     tools:layout_editor_absoluteX="40dp"
                     tools:layout_editor_absoluteY="253dp"
@@ -170,9 +192,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:visibility="gone">
+                android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/ContactsHomeNumber"
@@ -185,6 +205,7 @@
                     android:backgroundTint="#000000"
                     android:fontFamily="@font/montserrat"
                     android:hint="Home Phone Number"
+                    android:visibility="gone"
                     android:textColor="#000000"
                     android:textCursorDrawable="@drawable/black_cursor"
                     android:textSize="16sp"
@@ -200,6 +221,7 @@
                     android:layout_alignRight="@+id/ContactsHomeNumber"
                     android:layout_alignBottom="@+id/ContactsHomeNumber"
                     android:layout_marginEnd="10dp"
+                    android:visibility="gone"
                     android:layout_marginBottom="12dp"
                     android:background="@drawable/cancel_contact_field"
                     tools:layout_editor_absoluteX="40dp"

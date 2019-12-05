@@ -2,13 +2,44 @@ package in.codepredators.contactspot;
 
 public class DetailedContact {
 
+    private int position;
     private String Name;
-    private String Phone;
+    private String MobilePhone;
+    private String WorkPhone;
+    private String HomePhone;
     private String Email;
     private String Address;
     private String Job;
     private String Company;
     private String Notes;
+
+    DetailedContact(int index){
+        position = index;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public String getWorkPhone() {
+        return WorkPhone;
+    }
+
+    public void setWorkPhone(String workPhone) {
+        WorkPhone = workPhone;
+    }
+
+    public String getHomePhone() {
+        return HomePhone;
+    }
+
+    public void setHomePhone(String homePhone) {
+        HomePhone = homePhone;
+    }
 
     public String getName() {
         return Name;
@@ -18,12 +49,12 @@ public class DetailedContact {
         Name = name;
     }
 
-    public String getPhone() {
-        return Phone;
+    public String getMobilePhone() {
+        return MobilePhone;
     }
 
-    public void setPhone(String phone) {
-        Phone = phone;
+    public void setMobilePhone(String mobilePhone) {
+        MobilePhone = mobilePhone;
     }
 
     public String getEmail() {
@@ -68,7 +99,7 @@ public class DetailedContact {
 
     DetailedContact(){
         Name = "";
-        Phone = "";
+        MobilePhone = "";
         Email = "";
         Address = "";
         Job = "";

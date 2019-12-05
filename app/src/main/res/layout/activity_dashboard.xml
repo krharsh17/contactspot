@@ -116,7 +116,7 @@
                             android:layout_width="match_parent"
                             android:orientation="vertical"
                             android:id="@+id/MultipleContactsPalette"
-                            android:visibility="visible">
+                            android:visibility="gone">
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/ContactsRecycler"
@@ -162,7 +162,6 @@
                         </LinearLayout>
 
 <!--SingleContact-->
-
                         <LinearLayout
                             android:id="@+id/ContactsSingleLayout"
                             android:layout_width="match_parent"
@@ -176,7 +175,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/ContactstabLayout"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
@@ -219,11 +218,10 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp">
+                                android:layout_height="wrap_content">
 
                                 <EditText
-                                    android:id="@+id/ContactSinglePhone"
+                                    android:id="@+id/ContactSingleMobilePhone"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentStart="true"
@@ -232,7 +230,7 @@
                                     android:layout_alignParentRight="true"
                                     android:backgroundTint="@color/black"
                                     android:fontFamily="@font/montserrat"
-                                    android:hint="Phone Number"
+                                    android:hint="Mobile Phone Number"
                                     android:textColor="@color/black"
                                     android:textCursorDrawable="@drawable/black_cursor"
                                     android:textSize="16sp"
@@ -244,9 +242,9 @@
                                     android:id="@+id/CoontactSinglePhoneAdd"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
-                                    android:layout_alignEnd="@+id/ContactSinglePhone"
-                                    android:layout_alignRight="@+id/ContactSinglePhone"
-                                    android:layout_alignBottom="@+id/ContactSinglePhone"
+                                    android:layout_alignEnd="@+id/ContactSingleMobilePhone"
+                                    android:layout_alignRight="@+id/ContactSingleMobilePhone"
+                                    android:layout_alignBottom="@+id/ContactSingleMobilePhone"
                                     android:layout_marginEnd="32dp"
                                     android:layout_marginBottom="12dp"
                                     android:background="@drawable/add"
@@ -258,9 +256,9 @@
                                     android:id="@+id/CoontactSinglePhoneCancel"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
-                                    android:layout_alignEnd="@+id/ContactSinglePhone"
-                                    android:layout_alignRight="@+id/ContactSinglePhone"
-                                    android:layout_alignBottom="@+id/ContactSinglePhone"
+                                    android:layout_alignEnd="@+id/ContactSingleMobilePhone"
+                                    android:layout_alignRight="@+id/ContactSingleMobilePhone"
+                                    android:layout_alignBottom="@+id/ContactSingleMobilePhone"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginBottom="12dp"
                                     android:background="@drawable/cancel_contact_field"
@@ -272,8 +270,102 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp">
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/ContactSingleWorkPhone"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentRight="true"
+                                    android:backgroundTint="@color/black"
+                                    android:fontFamily="@font/montserrat"
+                                    android:hint="Work Phone Number"
+                                    android:textColor="@color/black"
+                                    android:textCursorDrawable="@drawable/black_cursor"
+                                    android:textSize="16sp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    tools:layout_editor_absoluteY="355dp" />
+
+                                <Button
+                                    android:id="@+id/CoontactSingleWorkPhoneAdd"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:visibility="gone"
+                                    android:layout_alignEnd="@+id/ContactSingleWorkPhone"
+                                    android:layout_alignRight="@+id/ContactSingleWorkPhone"
+                                    android:layout_alignBottom="@+id/ContactSingleWorkPhone"
+                                    android:layout_marginEnd="32dp"
+                                    android:layout_marginBottom="12dp"
+                                    android:background="@drawable/add"
+                                    tools:layout_editor_absoluteX="40dp"
+                                    tools:layout_editor_absoluteY="253dp"
+                                    android:layout_marginRight="32dp" />
+
+                                <Button
+                                    android:id="@+id/CoontactSingleWorkPhoneCancel"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_alignEnd="@+id/ContactSingleWorkPhone"
+                                    android:layout_alignRight="@+id/ContactSingleWorkPhone"
+                                    android:layout_alignBottom="@+id/ContactSingleWorkPhone"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="12dp"
+                                    android:visibility="gone"
+                                    android:background="@drawable/cancel_contact_field"
+                                    tools:layout_editor_absoluteX="40dp"
+                                    tools:layout_editor_absoluteY="253dp"
+                                    android:layout_marginRight="10dp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/ContactSingleHomePhone"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentRight="true"
+                                    android:backgroundTint="@color/black"
+                                    android:fontFamily="@font/montserrat"
+                                    android:hint="Home Phone Number"
+                                    android:textColor="@color/black"
+                                    android:visibility="gone"
+                                    android:textCursorDrawable="@drawable/black_cursor"
+                                    android:textSize="16sp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    tools:layout_editor_absoluteY="355dp" />
+
+                                <Button
+                                    android:id="@+id/CoontactSingleHomePhoneCancel"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_alignEnd="@+id/ContactSingleHomePhone"
+                                    android:layout_alignRight="@+id/ContactSingleHomePhone"
+                                    android:layout_alignBottom="@+id/ContactSingleHomePhone"
+                                    android:layout_marginEnd="10dp"
+                                    android:visibility="gone"
+                                    android:layout_marginBottom="12dp"
+                                    android:background="@drawable/cancel_contact_field"
+                                    tools:layout_editor_absoluteX="40dp"
+                                    tools:layout_editor_absoluteY="253dp"
+                                    android:layout_marginRight="10dp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
 
                                 <EditText
                                     android:id="@+id/ContactSingleEmail"
@@ -313,8 +405,7 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp">
+                                android:layout_height="wrap_content">
 
                                 <EditText
                                     android:id="@+id/ContactSingleAddress"
@@ -354,8 +445,7 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp">
+                                android:layout_height="wrap_content">
 
                                 <EditText
                                     android:id="@+id/ContactSingleJobTitle"
@@ -395,8 +485,7 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp">
+                                android:layout_height="wrap_content">
 
                                 <EditText
                                     android:id="@+id/ContactSingleCompany"
@@ -437,7 +526,6 @@
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
                                 android:visibility="gone">
 
                                 <EditText
@@ -490,8 +578,7 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp">
+                                android:layout_height="wrap_content">
 
                                 <EditText
                                     android:id="@+id/ContactSingleNotes"
@@ -532,7 +619,6 @@
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
                                 android:visibility="gone">
 
                                 <EditText
@@ -572,7 +658,6 @@
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
                                 android:visibility="gone">
 
                                 <EditText
@@ -692,7 +777,7 @@
                         android:gravity="center"
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
-                        android:text="Choose which file to show on top"
+                        android:text="Choose which fields to show on top"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         tools:layout_editor_absoluteX="77dp"
@@ -720,15 +805,16 @@
                             android:singleLine="true"
                             android:paddingStart="5dp"
                             android:clickable="true"
-                            android:onClick="elevateName"
                             android:textIsSelectable="true"
                             android:paddingEnd="5dp"
                             android:fontFamily="@font/codesaver"
-                            android:background="@drawable/unselected_shape"
+                            android:background="@drawable/selected_shape"
                             android:text="Name"
                             android:textAllCaps="false"
-                            android:textColor="@color/blue"
+                            android:textColor="@color/white"
                             android:textSize="14sp"
+                            android:elevation="5dp"
+                            android:onClick="flipChoice"
                             tools:layout_editor_absoluteX="53dp"
                             tools:layout_editor_absoluteY="269dp"
                             android:layout_marginLeft="20dp"
@@ -743,15 +829,16 @@
                             android:layout_marginStart="5dp"
                             android:layout_marginEnd="20dp"
                             android:layout_weight="1"
-                            android:onClick="elevatePhone"
                             android:singleLine="true"
                             android:paddingStart="5dp"
                             android:paddingEnd="5dp"
                             android:fontFamily="@font/codesaver"
-                            android:background="@drawable/unselected_shape"
+                            android:background="@drawable/selected_shape"
                             android:text="Phone Number"
                             android:textAllCaps="false"
-                            android:textColor="@color/blue"
+                            android:elevation="5dp"
+                            android:onClick="flipChoice"
+                            android:textColor="@color/white"
                             android:textSize="14sp"
                             tools:layout_editor_absoluteX="53dp"
                             tools:layout_editor_absoluteY="269dp"
@@ -778,7 +865,7 @@
                             android:gravity="center"
                             android:layout_marginEnd="5dp"
                             android:layout_weight="1"
-                            android:onClick="elevateEmail"
+                            android:onClick="flipChoice"
                             android:singleLine="true"
                             android:paddingStart="5dp"
                             android:paddingEnd="5dp"
@@ -800,7 +887,7 @@
                             android:layout_marginStart="5dp"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center"
-                            android:onClick="elevateAddress"
+                            android:onClick="flipChoice"
                             android:layout_marginEnd="5dp"
                             android:layout_weight="1"
                             android:singleLine="true"
@@ -824,7 +911,7 @@
                             android:layout_marginEnd="20dp"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center"
-                            android:onClick="elevateJob"
+                            android:onClick="flipChoice"
                             android:layout_weight="1"
                             android:singleLine="true"
                             android:paddingStart="5dp"
@@ -866,6 +953,7 @@
                             android:fontFamily="@font/codesaver"
                             android:background="@drawable/unselected_shape"
                             android:text="Company"
+                            android:onClick="flipChoice"
                             android:textAllCaps="false"
                             android:textColor="@color/blue"
                             android:textSize="14sp"
@@ -884,6 +972,7 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center"
                             android:singleLine="true"
+                            android:visibility="gone"
                             android:paddingStart="5dp"
                             android:paddingEnd="5dp"
                             android:fontFamily="@font/codesaver"
@@ -907,6 +996,7 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center"
                             android:paddingStart="5dp"
+                            android:onClick="flipChoice"
                             android:paddingEnd="5dp"
                             android:singleLine="true"
                             android:fontFamily="@font/codesaver"
@@ -929,6 +1019,7 @@
                         android:gravity="center_horizontal"
                         android:paddingLeft="15dp"
                         android:paddingRight="10dp"
+                        android:visibility="gone"
                         android:orientation="horizontal">
 
                         <TextView
@@ -1020,20 +1111,19 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/ContactsKumarHarsh"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/ContactsKumarHarshImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_weight="0.5"
                             android:layout_gravity="center"
                             android:layout_marginLeft="20dp"
-                            app:srcCompat="@mipmap/ic_launcher" />
+                            app:srcCompat="@drawable/harsh" />
 
                         <TextView
-                            android:id="@+id/ContactsKumarHarshName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -1056,20 +1146,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:id="@+id/ContactsRakshitaJain"
                         android:orientation="horizontal">
 
 
                         <ImageView
-                            android:id="@+id/ContactsRakshitaImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_weight="0.5"
                             android:layout_gravity="center"
                             android:layout_marginLeft="20dp"
-                            app:srcCompat="@mipmap/ic_launcher" />
+                            app:srcCompat="@drawable/rakshita" />
 
                         <TextView
-                            android:id="@+id/ContactsRAkshitaName"
                             android:layout_width="97dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -1090,10 +1179,11 @@
                     <Button
                         android:id="@+id/ContactsBuyCoffee"
                         android:layout_width="200dp"
-                        android:layout_height="60dp"
+                        android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/buy_coffee"
+                        android:elevation="5dp"
+                        android:background="@drawable/kofi"
                         tools:layout_editor_absoluteX="306dp"
                         tools:layout_editor_absoluteY="131dp" />
 
